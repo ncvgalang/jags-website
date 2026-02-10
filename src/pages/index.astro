@@ -1,11 +1,59 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { getEntryById } from '../lib/contentful';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+const entry = await getEntryById('1fjZQ4a4Kr4mJxFpdbFdv0');
+const fields = entry.fields as Record<string, unknown>;
 ---
 
 <Layout>
-	<Welcome />
+	<main class="page">
+		<section class="card">
+			<h1>Contentful Entry</h1>
+			<p><strong>ID:</strong> {entry.sys.id}</p>
+			<p><strong>Content Type:</strong> {entry.sys.contentType?.sys.id}</p>
+			<pre>{JSON.stringify(fields, null, 2)}</pre>
+		</section>
+	</main>
 </Layout>
+
+<style>
+	.page {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 48px 16px;
+		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+	}
+
+	.card {
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 16px;
+		padding: 24px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+	}
+
+	h1 {
+		margin: 0 0 12px;
+		font-size: 28px;
+	}
+
+	p {
+		margin: 0 0 8px;
+		color: #374151;
+	}
+
+	pre {
+		margin: 16px 0 0;
+		padding: 16px;
+		background: #0b1020;
+		color: #e5e7eb;
+		border-radius: 12px;
+		overflow: auto;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+</style>
